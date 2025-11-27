@@ -1,0 +1,56 @@
+/**
+ * @ Author: Fellipe M Fumagali Scirea
+ * @ BCIT Student # : A01181350
+ * @ Created: 11-27-2025
+ * @ Description: COMP 2132 Final Project - Deliverable as part of coursework.
+ * @ 
+ */
+
+$theme-dark: (color-background-page: #0f172a,
+    color-background-surface: #111827,
+    color-background-card: #0b1220,
+    color-text-main: #f8fafc,
+    color-text-muted: #cbd5e1,
+    color-accent-primary: #60a5fa,
+    color-focus-ring: #93c5fd,
+    color-border-subtle: #1f2937,
+    layout-max-content-width: 1000px,
+);
+
+$theme-light: (color-background-page: #f9fafb,
+    color-background-surface: #ffffff,
+    color-background-card: #e5e7eb,
+    color-text-main: #0f172a,
+    color-text-muted: #6b7280,
+    color-accent-primary: #2563eb,
+    color-focus-ring: #60a5fa,
+    color-border-subtle: #d1d5db,
+    layout-max-content-width: 1000px,
+);
+
+
+//Setting a theme map to define the CSS custom properties depending on user choice
+@mixin apply-theme($theme) {
+    --color-background-page: #{map-get($theme, color-background-page)};
+    --color-background-surface: #{map-get($theme, color-background-surface)};
+    --color-background-card: #{map-get($theme, color-background-card)};
+    --color-text-main: #{map-get($theme, color-text-main)};
+    --color-text-muted: #{map-get($theme, color-text-muted)};
+    --color-accent-primary: #{map-get($theme, color-accent-primary)};
+    --color-focus-ring: #{map-get($theme, color-focus-ring)};
+    --color-border-subtle: #{map-get($theme, color-border-subtle)};
+    --layout-max-content-width: #{map-get($theme, layout-max-content-width)};
+}
+
+
+
+
+@layer base {
+    :root {
+        @include apply-theme($theme-dark); //Defaults to dark theme
+    }
+
+    :root.theme-light {
+        @include apply-theme($theme-light);
+    }
+}

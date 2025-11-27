@@ -1,0 +1,112 @@
+/**
+ * @ Author: Fellipe M Fumagali Scirea
+ * @ BCIT Student # : A01181350
+ * @ Created: 10-22-2025
+ * @ Description: COMP 2132 - Deliverable as part of coursework.
+ * @ Component CSS file: Components style.
+ */
+
+/* components.css */
+
+@layer base, layout, components;
+
+@layer components {
+  /* header brand typography */
+  .brand .logo {
+    font-size: 1.5rem;
+  }
+  .brand h1 {
+    font-family: Merriweather, Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.2px;
+  }
+
+  /* nav visuals */
+  .site-nav li:nth-child(2) a {
+    border-bottom: 2px dashed rgba(255, 255, 255, 0.15);
+  }
+  .site-nav a {
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+    color: var(--muted);
+    border-radius: 0.5rem;
+    transition: transform 120ms ease, background 120ms ease, color 120ms ease,
+      box-shadow 120ms ease;
+  }
+  .site-nav a:hover,
+  .site-nav a:focus-visible {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.06);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.35);
+    transform: translateY(-1px);
+  }
+
+  /* cards → used for <section class="part"> */
+  .part,
+  .card {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.03),
+      rgba(255, 255, 255, 0.02)
+    );
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    border-radius: 1rem;
+    padding: clamp(1rem, 3vw, 2rem);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  /* buttons */
+  .btn {
+    display: inline-block;
+    font-weight: 600;
+    text-decoration: none;
+    color: #0b1220;
+    background: var(--accent);
+    padding: 0.6rem 0.9rem;
+    border-radius: 0.75rem;
+    transition: filter 120ms ease, transform 120ms ease;
+  }
+  .btn:hover,
+  .btn:focus-visible {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+    box-shadow: 0 0 0 3px var(--ring);
+  }
+
+  /* pills */
+  .pill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-left: 0;
+    list-style: none;
+  }
+  .pill-list li {
+    background: rgba(96, 165, 250, 0.15);
+    border: 1px solid rgba(96, 165, 250, 0.35);
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+  }
+  .note {
+    color: var(--muted);
+  }
+
+  /* gallery */
+  .gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  figure {
+    margin: 0;
+  }
+  .gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}

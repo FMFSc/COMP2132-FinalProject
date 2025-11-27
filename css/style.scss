@@ -1,0 +1,20 @@
+/**
+ * @ Author: Fellipe M Fumagali Scirea
+ * @ BCIT Student # : A01181350
+ * @ Created: 11-27-2025
+ * @ Description: COMP 2132 Final Project - Deliverable as part of coursework.
+ * @ Styles.scss: Compilation of styles from other files
+ */
+
+@layer base,
+layout,
+components;
+
+//Theme config and core helpers first
+@import "variables";
+@import "mixins";
+
+//Structural styles
+@import "base";
+@import "layout";
+@import "components";

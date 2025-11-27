@@ -1,0 +1,11 @@
+/**
+ * @ Author: Fellipe M Fumagali Scirea
+ * @ BCIT Student # : A01181350
+ * @ Created: 11-27-2025
+ * @ Description: COMP 2132 Final Project - Deliverable as part of coursework.
+ */
+
+@mixin theme-vars($theme){
+    --color-background-page: map-get($theme, color-background-page);
+    
+}

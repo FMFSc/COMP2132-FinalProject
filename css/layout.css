@@ -1,0 +1,82 @@
+/**
+ * @ Author: Fellipe M Fumagali Scirea
+ * @ BCIT Student # : A01181350
+ * @ Created: 10-22-2025
+ * @ Description: COMP 2132 - Deliverable as part of coursework.
+ * @ Layout CSS file: Page layout styling.
+ */
+
+/* layout.css */
+
+@layer base, layout, components;
+
+@layer layout {
+  /* -- Header & nav layout (no colors/typography here) -- */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem clamp(1rem, 4vw, 2rem);
+    border-bottom: 1px solid var(--line); /* token instead of hex */
+    background: rgba(0, 0, 0, 0.1); /* graceful fallback */
+    backdrop-filter: blur(2px);
+  }
+
+  /* cap and center header on wide screens */
+  @media (min-width: 1024px) {
+    .site-header {
+      max-width: var(--max-line);
+      margin-inline: auto;
+    }
+  }
+
+  /* brand block aligns icon + title horizontally */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* primary nav list is a horizontal row */
+  .site-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  /* -- Main content grid --
+     default: single column (<1024px)
+     >=1024px: two centered columns; natural pairing 1–2, 3–4, 5–6
+  */
+  main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: clamp(1rem, 4vw, 2rem);
+    max-width: var(--max-line);
+    margin-inline: auto; /* centers the content area */
+    align-items: stretch; /* equal heights per row */
+  }
+
+  @media (min-width: 1024px) {
+    main {
+      grid-template-columns: repeat(2, minmax(28rem, 1fr));
+      justify-content: center; /* center the two-column block */
+      gap: 1.25rem;
+    }
+  }
+
+  /* Optional helper for full-width sections on wide screens */
+  /* .part--full { grid-column: 1 / -1; } */
+
+  /* -- Footer layout -- */
+  .site-footer {
+    max-width: var(--max-line);
+    margin: 2rem auto;
+    padding: 0 2rem 2rem;
+    text-align: center;
+  }
+}

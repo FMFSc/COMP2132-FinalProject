@@ -1,0 +1,90 @@
+/**
+ * @ Author: Fellipe M Fumagali Scirea
+ * @ BCIT Student # : A01181350
+ * @ Created: 11-27-2025
+ * @ Description: COMP 2132 Final Project - Deliverable as part of coursework.
+ * @ Base SCSS styles: Main page styles - Global behaviour
+ */
+
+@layer base {
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--color-text-main);
+        background: radial-gradient(1200px 800px at 10% -10%,
+                #1f2937 0%,
+                var(--color-background-page) 45%) no-repeat fixed;
+        line-height: 1.6;
+    }
+
+    img,
+    svg,
+    video {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+
+        &:focus,
+        &:focus-visible {
+            position: static;
+            width: auto;
+            height: auto;
+            padding: 0.5rem 0.75rem;
+            background: var(--color-accent-primary);
+            color: var(--color-background-page);
+            border-radius: 0.5rem;
+            outline: none;
+        }
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @layer base {
+        * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+}
+
+@media print {
+    @layer base {
+        body {
+            background: #fff;
+            color: #000;
+        }
+
+        .site-header,
+        .site-nav,
+        .site-footer {
+            display: none;
+        }
+
+        a::after {
+            content: " (" attr(href) ")";
+            font-size: 0.9em;
+        }
+    }
+}
