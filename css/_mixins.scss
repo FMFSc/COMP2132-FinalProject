@@ -5,7 +5,8 @@
  * @ Description: COMP 2132 Final Project - Deliverable as part of coursework.
  */
 
-@mixin theme-vars($theme){
-    --color-background-page: map-get($theme, color-background-page);
-    
+@mixin focus-ring($color, $size: 3px) {
+    box-shadow: 0 0 0 $size $color;
+    outline: none;
+
 }

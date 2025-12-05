@@ -236,6 +236,7 @@ components;
     filter: brightness(1.05);
     transform: translateY(-1px);
     box-shadow: 0 0 0 3px var(--color-focus-ring);
+    outline: none;
   }
   .pill-list {
     display: flex;

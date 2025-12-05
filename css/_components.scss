@@ -75,7 +75,7 @@
         &:focus-visible {
             filter: brightness(1.05);
             transform: translateY(-1px);
-            box-shadow: 0 0 0 3px var(--color-focus-ring);
+            @include focus-ring(var(--color-focus-ring));
         }
     }
 
