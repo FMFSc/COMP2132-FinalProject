@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Reusable COMP 2132 Assignment Template for weekly JavaScript projects"
+      content="Dice and Hangman games - COMP 2132 Final Project by Fellipe Scirea"
     />
     <meta name="author" content="Fellipe Scirea" />
 
@@ -31,6 +31,7 @@
   </head>
 
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header class="site-header">
       <div class="brand">
         <span class="logo" aria-hidden="true">👋</span>
@@ -44,12 +45,117 @@
       </nav>
     </header>
 
-    <main>
+    <main id="main-content">
       <!-- Reusable Content Portion -->
       <!-- Part 1 -->
       <section id="dice-game" class="part">
         <h2 data-title="dice-game-title">Dice Game</h2>
         <p data-body="dice-game-body">Lets play dice!</p>
+
+        <div class="dice-game-body">
+          <!-- 2 Columns for the dice game: Left > Player, Right > Computer -->
+          <div class="dice-panel">
+            <!-- Player Side -->
+            <section class="dice-panel--player" aria-label="Player dice panel">
+              <h3 class="player-title">Player</h3>
+
+              <div class="dice-panel-animation">
+                <!-- Individual dice separation to animate -->
+                <div class="dice-face" data-die="player-dice-1">🎲</div>
+                <div class="dice-face" data-die="player-dice-2">🎲</div>
+              </div>
+
+              <div class="dice-panel-scoreboard">
+                <div class="scoreboard">
+                  <div class="scoreboard-header">
+                    <span>Game 1</span>
+                    <span>Game 2</span>
+                    <span>Game 3</span>
+                  </div>
+                  <div class="scoreboard-results">
+                    <span data-score="player-game-1">-</span>
+                    <span data-score="player-game-2">-</span>
+                    <span data-score="player-game-3">-</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Computer Side -->
+            <section
+              class="dice-panel--computer"
+              aria-label="Computer dice panel"
+            >
+              <h3 class="player-title">Computer</h3>
+
+              <div class="dice-panel-animation">
+                <!-- Individual dice separation to animate -->
+                <div class="dice-face" data-die="computer-dice-1">🎲</div>
+                <div class="dice-face" data-die="computer-dice-2">🎲</div>
+              </div>
+
+              <div class="dice-panel-scoreboard">
+                <div class="scoreboard">
+                  <div class="scoreboard-header">
+                    <span>Game 1</span>
+                    <span>Game 2</span>
+                    <span>Game 3</span>
+                  </div>
+                  <div class="scoreboard-results">
+                    <span data-score="computer-game-1">-</span>
+                    <span data-score="computer-game-2">-</span>
+                    <span data-score="computer-game-3">-</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- Game Control Area -->
+          <p class="dice-game-instructions">
+            Press <strong>Play</strong> to start. The game will run for 3
+            rounds. Press <strong>Pause</strong> or <strong>Cancel</strong> to
+            pause or cancel your game at any time while playing.
+          </p>
+
+          <!-- Buttons to control the game -->
+          <div class="dice-game-controls">
+            <button
+              type="button"
+              class="btn dice-game-btn dice-game-btn-play"
+              data-action="play"
+            >
+              Play
+            </button>
+            <button
+              type="button"
+              class="btn dice-game-btn dice-game-btn-cancel"
+              data-action="cancel"
+              disabled
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+
+        <!-- End-of-game popup -->
+        <div
+          class="game-dialog game-dialog-dice"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="dice-dialog-title"
+          hidden
+        >
+          <div class="game-dialog-content">
+            <h3 id="dice-dialog-title">Game summary</h3>
+            <p class="game-dialog-message" data-dice-dialog-message>
+              <!-- JS will inject "winner message" or "Thanks for playing!" -->
+            </p>
+            <button type="button" class="btn" data-action="close-dice-dialog">
+              Close
+            </button>
+          </div>
+        </div>
       </section>
 
       <!-- Part 2 -->
@@ -59,8 +165,8 @@
       </section>
     </main>
 
-    <script type="module" src="./js/jquery-3.7.1.min.js" defer></script>
-    <script type="module" src="./js/main.js" defer></script>
+    <script src="./js/jquery-3.7.1.min.js" defer></script>
+    <script src="./js/main.js" defer></script>
 
     <footer class="site-footer">
       <p>&copy; 2025 Fellipe Scirea – COMP 2132 Final Project</p>
