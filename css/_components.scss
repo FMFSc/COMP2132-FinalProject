@@ -118,6 +118,14 @@
     }
 
     //Implementing the styling for the Dice Game
+    .dice-game-title,
+    .dice-game-body {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+    }
+
     .dice-game-body {
         display: flex;
         flex-direction: column;
