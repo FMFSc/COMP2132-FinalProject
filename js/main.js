@@ -148,8 +148,19 @@ $(function () {
         }
 
         //running totals
-        $('[data-score="player-running-total"]').text(playerRunningTotal);
-        $('[data-score="computer-running-total"]').text(computerRunningTotal);
+        if (playerScores.length === 0) {
+            // No rounds played yet – show "-"
+            $('[data-score="player-running-total"]').text("-");
+        } else {
+            $('[data-score="player-running-total"]').text(playerRunningTotal);
+        }
+
+        if (computerScores.length === 0) {
+            // No rounds played yet – show "-"
+            $('[data-score="computer-running-total"]').text("-");
+        } else {
+            $('[data-score="computer-running-total"]').text(computerRunningTotal);
+        }
     }
 
     //gameWinner()
