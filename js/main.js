@@ -45,6 +45,9 @@ $(function () {
     const computerScores = [];
     //Round index tracker
     let roundIndex = 0;
+    //Player and Computer total score
+    let totalPlayerScore = 0,
+        totalComputerScore = 0;
 
     const $diceDialog = $(".game-dialog-dice");
     const $diceDialogMessage = $("[data-dice-dialog-message]");
@@ -94,19 +97,37 @@ $(function () {
 
     // Updating UI with scores
     function updateScoreboardUI() {
-        return;
-    }
-
-    //display final dialog after game is complete
-    function showFinalWinnerDialog() {
-        return;
+        if (playerScores[i]) {
+            for (let i = 0; i < 3; i++) {
+                [data - score = `player-game-${i+1}`];
+            }
+        }
+        if (computerScores[i]) {
+            for (let i = 0; i < 3; i++) {
+                [data - score = `computer-game-${i+1}`];
+            }
+        }
     }
 
     //game evaluation function to determine winner
     function gameWinner() {
-        return;
+        for (let i = 0; i < 3; i++) {
+            totalPlayerScore = +playerScores[i];
+            totalComputerScore = +computerScores[i];
+        }
+        return totalPlayerScore, totalComputerScore;
     }
 
+    //display final dialog after game is complete
+    function showFinalWinnerDialog(totalPlayerScore, totalComputerScore) {
+        if (totalPlayerScore > totalComputerScore) {
+            $diceDialogMessage.text(`Player wins! Total: ${totalPlayerScore} vs ${totalComputerScore}`);
+        } else if (totalPlayerScore < totalComputerScore) {
+            $diceDialogMessage.text(`Computer wins! Total: ${totalPlayerScore} vs ${totalComputerScore}`);
+        } else {
+            $diceDialogMessage.text(`This game was a draw! Total: ${totalPlayerScore} vs ${totalComputerScore}`);
+        }
+    }
 
 
     // stopRollingAnimation()
