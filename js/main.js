@@ -90,9 +90,47 @@ $(function () {
 
     //Function to register dice scores into a data storage
     function registerRoundPoints() {
-        playerScores.push((diceFinalValues[0] + diceFinalValues[1]));
-        computerScores.push((diceFinalValues[2] + diceFinalValues[3]));
+        const playerDie1 = diceFinalValues[0];
+        const playerDie2 = diceFinalValues[1];
+        const computerDie1 = diceFinalValues[2];
+        const computerDie2 = diceFinalValues[3];
+
+        const playerRoundScore = roundScore(playerDie1, playerDie2);
+        const computerRoundScore = roundScore(computerDie1, computerDie2);
+
+        playerScores.push(playerRoundScore);
+        computerScores.push(computerRoundScore);
         roundIndex++;
+    }
+
+    // roundScore()
+    // Helper function to calculate current round score based on game rules:
+    // If any die is 1, then score 0
+    // If the dice are a pair, then calculate (d1 + d2) * 2
+    // Otherwise, regular sum
+    function roundScore(d1, d2) {
+        if (d1 === 1 || d2 === 1) {
+            return 0;
+        } else if (d1 === d2) {
+            return ((d1 + d2) * 2);
+        } else {
+            return (d1 + d2);
+        }
+    }
+
+    //runningTotal
+    //Function to calculate running total before final round
+    function runningTotal() {
+        let playerRunningTotal = 0;
+        let computerRunningTotal = 0;
+
+        for (let i = 0; i < 3; i++) {
+            playerRunningTotal += playerScores[i];
+            computerRunningTotal += computerScores[i];
+        }
+        $(`data-score = "player-running-total"`).text(playerRunningTotal);
+        $(`data-score = "computer-running-total"`).text(ComputerRunningTotal);
+
     }
 
     // Updating UI with scores
@@ -109,8 +147,13 @@ $(function () {
                 $(`[data-score="computer-game-${i+1}"]`).text(computerScore);
             }
         }
+        runningTotal();
+
+
+
     }
 
+    //gameWinner()
     //game evaluation function to determine winner
     function gameWinner() {
         totalPlayerScore = 0;
@@ -122,7 +165,9 @@ $(function () {
         }
     }
 
+    //showFinalWinnerDialog function
     //display final dialog after game is complete
+    //Presents the winner of the game, if there is one
     function showFinalWinnerDialog() {
         gameWinner();
 
@@ -147,6 +192,7 @@ $(function () {
         diceFinalValues.length = 0;
         playerScores.length = 0;
         computerScores.length = 0;
+
     }
 
 
@@ -178,37 +224,54 @@ $(function () {
         } else {
             gameIsRolling = false;
             $playButton.prop("disabled", false);
-            $cancelButton.prop("disabled", true);
+
+            //After completing at least one round
+            $cancelButton.prop("disabled", false);
+            $cancelButton.text("Reset Game");
         }
     }
 
 
-    // cancelRolling()
-
+    // cancelRolling function:
     // Immediately stops all timers.
     // Does NOT show final dice values.
     // Shows the “Thanks for playing” dialog.
     // Resets buttons and state.
     function cancelRolling() {
-        //do nothing if game is not rolling
-        if (!gameIsRolling) {
+        //Game is rolling, user wants to cancel
+        if (gameIsRolling) {
+            //Clear all timers
+            clearInterval(rollingInterval);
+            clearTimeout(rollingTimeout);
+            rollingInterval = null;
+            rollingTimeout = null;
+            gameIsRolling = false;
+
+            //Reset buttons and state
+            $playButton.prop("disabled", false);
+            $cancelButton.prop("disabled", true);
+
+            //Show "Thanks for playing" dialog
+            $diceDialogMessage.text("Thanks for playing!");
+            $diceDialog.removeAttr("hidden");
             return;
         }
 
-        //Clear all timers
-        clearInterval(rollingInterval);
-        clearTimeout(rollingTimeout);
-        rollingInterval = null;
-        rollingTimeout = null;
-        gameIsRolling = false;
+        //In case the user wants to reset the game
+        if (!gameIsRolling && roundIndex > 0 && roundIndex < 3) {
+            resetGame();
+            updateScoreboardUI();
+            $cancelButton.prop("disabled", true);
+            $cancelButton.text("Cancel");
+            $playButton.text("Play");
 
-        //Reset buttons and state
-        $playButton.prop("disabled", false);
-        $cancelButton.prop("disabled", true);
+            $diceDialogMessage.text("Thanks for playing!");
+            $diceDialog.removeAttr("hidden");
 
-        //Show "Thanks for playing" dialog
-        $diceDialogMessage.text("Thanks for playing!");
-        $diceDialog.removeAttr("hidden");
+        }
+
+
+
 
         gameIsRolling = false;
 
@@ -216,6 +279,13 @@ $(function () {
 
     $diceDialogClose.on("click", function () {
         $diceDialog.attr("hidden", true);
+
+        //If game is finished, enable new game
+        if (roundIndex === 3) {
+            $playButton.text("Play Again");
+            $playButton.prop("disabled", false);
+            $cancelButton.prop("disabled", true);
+        }
     });
 
     // CANCEL BUTTON EVENT
@@ -227,15 +297,29 @@ $(function () {
 
 
     $playButton.on("click", function () {
+        // Resetting the game if it is finished
+        if (roundIndex === 3 && !gameIsRolling) {
+            //reset game and clear UI
+            resetGame();
+
+            //reset the button text
+            $playButton.text("Play");
+
+
+        }
+
+
         //If already rolling, disable play button
         if (gameIsRolling) {
             return;
         }
 
         gameIsRolling = true;
-        //Disable Play button, enable Cancel button
+        //Disable Play button, enable Cancel button, Change Cancel button text back
         $playButton.prop("disabled", true);
+
         $cancelButton.prop("disabled", false);
+        $cancelButton.text("Cancel");
 
         //call function getFinalValues
         getFinalValues();

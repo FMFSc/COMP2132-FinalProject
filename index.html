@@ -40,7 +40,7 @@
       <nav class="site-nav" aria-label="Primary">
         <ul>
           <li><a href="#dice-game">Dice Game</a></li>
-          <li><a href="#hangman-game">Hangman Game</a></li>
+          <!-- <li><a href="#hangman-game">Hangman Game</a></li> -->
         </ul>
       </nav>
     </header>
@@ -81,6 +81,12 @@
                     <span data-score="player-game-2">-</span>
                     <span data-score="player-game-3">-</span>
                   </div>
+                  <div class="running-total">
+                    <span>Running Total</span>
+                  </div>
+                  <div>
+                    <span data-score="computer-running-total">-</span>
+                  </div>
                 </div>
               </div>
             </section>
@@ -113,6 +119,12 @@
                     <span data-score="computer-game-1">-</span>
                     <span data-score="computer-game-2">-</span>
                     <span data-score="computer-game-3">-</span>
+                  </div>
+                  <div class="running-total">
+                    <span>Running Total</span>
+                  </div>
+                  <div>
+                    <span data-score="computer-running-total">-</span>
                   </div>
                 </div>
               </div>
@@ -167,10 +179,10 @@
       </section>
 
       <!-- Part 2 -->
-      <section id="hangman-game" class="part">
+      <!-- <section id="hangman-game" class="part">
         <h2 data-title="hangman-game-title">Hangman Game</h2>
         <p data-body="hangman-game-body">Try to guess the word!</p>
-      </section>
+      </section> -->
     </main>
 
     <script src="./js/jquery-3.7.1.min.js" defer></script>
