@@ -120,22 +120,6 @@ $(function () {
         }
     }
 
-    // //runningTotal
-    // //Function to calculate running total before final round
-    // function runningTotal() {
-
-
-    //     for (let i = 0; i < playerScores.length; i++) {
-    //         playerRunningTotal += playerScores[i] || 0;
-    //     }
-
-    //     for (let i = 0; i < computerScores.length; i++) {
-    //         computerRunningTotal += computerScores[i] || 0;
-    //     }
-
-
-    // }
-
     // Updating UI with scores
     function updateScoreboardUI() {
         let playerRunningTotal = 0;
