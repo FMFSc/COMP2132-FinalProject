@@ -36,6 +36,14 @@ $(function () {
     let rollingTimeout = null;
     // gameIsRolling: prevents clicking Play multiple times
     let gameIsRolling = false;
+    //Length of time the dice will display each face during animation
+    const rollingAnimationInterval = 100; //milliseconds
+    //Total time the rolling animation will last
+    const rollingAnimationDuration = 3000; //milliseconds
+
+    const $diceDialog = $(".game-dialog-dice");
+    const $diceDialogMessage = $("[data-dice-dialog-message]");
+    const $diceDialogClose = $("[data-action='close-dice-dialog']");
 
     // getFinalValues()
     // Creates the final dice results BEFORE animation.
@@ -55,28 +63,20 @@ $(function () {
     // Does NOT use the final roll values.
     // No return value.
 
+    function startRollingAnimation() {
+        //If animation is already running, exit function        
+        if (rollingInterval !== null) {
+            return;
+        }
 
-
-
-
-    $playButton.on("click", function () {
-        //call function getFinalValues
-        getFinalValues();
-
-        //Selecting the first dice image
-        let diceImage = $diceImages[0];
-
-        //updating the dice image
-        diceImage.src = getDiceImage(diceNumber);
-
-    });
-
-
-
-
-
-
-
+        rollingInterval = setInterval(function () {
+            // For each dice image, show a temporary random face
+            $diceImages.each(function () {
+                const tempValue = Math.floor(Math.random() * 6) + 1;
+                this.src = getDiceImage(tempValue);
+            });
+        }, rollingAnimationInterval);
+    }
 
 
     // stopRollingAnimation()
@@ -85,9 +85,22 @@ $(function () {
     // Uses finalValues[] to update each die image.
     // Resets game state and buttons.
     // No return value.
+    function stopRollingAnimation() {
+        //Clear the rolling interval to stop animation
+        clearInterval(rollingInterval);
+        rollingInterval = null;
 
+        //Update each dice image to show the final values
+        $diceImages.each(function (index) {
+            const finalValue = diceFinalValues[index];
+            this.src = getDiceImage(finalValue);
+        });
 
-
+        //Reset game state and buttons
+        gameIsRolling = false;
+        $playButton.prop("disabled", false);
+        $cancelButton.prop("disabled", true);
+    }
 
 
     // cancelRolling()
@@ -96,29 +109,64 @@ $(function () {
     // Does NOT show final dice values.
     // Shows the “Thanks for playing” dialog.
     // Resets buttons and state.
-    // No return value.
+    function cancelRolling() {
+        //do nothing if game is not rolling
+        if (!gameIsRolling) {
+            return;
+        }
 
+        //Clear all timers
+        clearInterval(rollingInterval);
+        clearTimeout(rollingTimeout);
+        rollingInterval = null;
+        rollingTimeout = null;
+        gameIsRolling = false;
 
+        //Reset buttons and state
+        $playButton.prop("disabled", false);
+        $cancelButton.prop("disabled", true);
 
+        //Show "Thanks for playing" dialog
+        $diceDialogMessage.text("Thanks for playing!");
+        $diceDialog.removeAttr("hidden");
 
+        gameIsRolling = false;
 
-    // PLAY BUTTON EVENT
+    }
 
-    // - Ignore click if already rolling
-    // - Disable Play, enable Cancel
-    // - Set gameIsRolling = true
-    // - generateFinalValues()
-    // - startRollingAnimation()
-    // - Schedule stopRollingAnimation() in 3s
-
-
-
-
+    $diceDialogClose.on("click", function () {
+        $diceDialog.attr("hidden", true);
+    });
 
     // CANCEL BUTTON EVENT
-
     // Calls cancelRolling()
+    $cancelButton.on("click", function () {
+        cancelRolling();
+    });
 
+
+    $playButton.on("click", function () {
+        //If already rolling, disable play button
+        if (gameIsRolling) {
+            return;
+        }
+
+        gameIsRolling = true;
+
+        //Start rolling animation  
+        startRollingAnimation();
+        //Disable Play button, enable Cancel button
+        $playButton.prop("disabled", true);
+        $cancelButton.prop("disabled", false);
+
+        rollingTimeout = setTimeout(function () {
+            stopRollingAnimation();
+            rollingTimeout = null;
+        }, rollingAnimationDuration);
+
+        //call function getFinalValues
+        getFinalValues();
+    });
 
 
     //Generate a final value (1–6) for each die
