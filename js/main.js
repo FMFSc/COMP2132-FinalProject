@@ -101,12 +101,12 @@ $(function () {
             const playerScore = playerScores[i];
             const computerScore = computerScores[i];
 
-            if (playerScore !== null) {
-                $(`[data-score="player-game-${i+1}]`).text(playerScore);
+            if (playerScore != null) {
+                $(`[data-score="player-game-${i+1}"]`).text(playerScore);
             }
 
-            if (computerScore !== null) {
-                $(`[data-score="computer-game-${i+1}]`).text(computerScore);
+            if (computerScore != null) {
+                $(`[data-score="computer-game-${i+1}"]`).text(computerScore);
             }
         }
     }
@@ -166,7 +166,6 @@ $(function () {
         });
 
         //Reset game state and buttons
-        gameIsRolling = false;
         $playButton.prop("disabled", false);
         $cancelButton.prop("disabled", true);
 
