@@ -48,6 +48,8 @@ $(function () {
     //Player and Computer total score
     let totalPlayerScore = 0;
     let totalComputerScore = 0;
+    //Game max rounds
+    const maxRounds = 3;
 
     const $diceDialog = $(".game-dialog-dice");
     const $diceDialogMessage = $("[data-dice-dialog-message]");
@@ -118,42 +120,52 @@ $(function () {
         }
     }
 
-    //runningTotal
-    //Function to calculate running total before final round
-    function runningTotal() {
-        let playerRunningTotal = 0;
-        let computerRunningTotal = 0;
+    // //runningTotal
+    // //Function to calculate running total before final round
+    // function runningTotal() {
 
-        for (let i = 0; i < playerScores.length; i++) {
-            playerRunningTotal += playerScores[i] || 0;
-        }
 
-        for (let i = 0; i < computerScores.length; i++) {
-            computerRunningTotal += computerScores[i] || 0;
-        }
-        $(`[data-score = "player-running-total"]`).text(playerRunningTotal);
-        $(`[data-score = "computer-running-total"]`).text(computerRunningTotal);
+    //     for (let i = 0; i < playerScores.length; i++) {
+    //         playerRunningTotal += playerScores[i] || 0;
+    //     }
 
-    }
+    //     for (let i = 0; i < computerScores.length; i++) {
+    //         computerRunningTotal += computerScores[i] || 0;
+    //     }
+
+
+    // }
 
     // Updating UI with scores
     function updateScoreboardUI() {
-        for (let i = 0; i < 3; i++) {
+        let playerRunningTotal = 0;
+        let computerRunningTotal = 0;
+
+        for (let i = 0; i < maxRounds; i++) {
+            const roundNumber = i + 1;
             const playerScore = playerScores[i];
             const computerScore = computerScores[i];
 
-            if (playerScore != null) {
-                $(`[data-score="player-game-${i+1}"]`).text(playerScore);
+            //Player UI
+            if (typeof playerScore === "number") {
+                $(`[data-score="player-game-${roundNumber}"]`).text(playerScore);
+                playerRunningTotal += playerScore;
+            } else {
+                $(`[data-score="player-game-${roundNumber}"]`).text("-");
             }
 
-            if (computerScore != null) {
-                $(`[data-score="computer-game-${i+1}"]`).text(computerScore);
+            //COmputer UI
+            if (typeof computerScore === "number") {
+                $(`[data-score="computer-game-${roundNumber}"]`).text(computerScore);
+                computerRunningTotal += computerScore;
+            } else {
+                $(`[data-score="computer-game-${roundNumber}"]`).text("-");
             }
         }
-        runningTotal();
 
-
-
+        //running totals
+        $('[data-score="player-running-total"]').text(playerRunningTotal);
+        $('[data-score="computer-running-total"]').text(computerRunningTotal);
     }
 
     //gameWinner()
@@ -196,8 +208,12 @@ $(function () {
         playerScores.length = 0;
         computerScores.length = 0;
 
-    }
+        //reset dice faces to 1
+        $diceImages.each(function () {
+            this.src = getDiceImage(1);
+        });
 
+    }
 
     // stopRollingAnimation()
     // Stops animation and shows the TRUE final results.
@@ -236,7 +252,6 @@ $(function () {
         }
     }
 
-
     // cancelRolling function:
     // Immediately stops all timers.
     // Does NOT show final dice values.
@@ -274,10 +289,6 @@ $(function () {
             $diceDialog.removeAttr("hidden");
 
         }
-
-
-
-
         gameIsRolling = false;
 
     }
@@ -306,13 +317,11 @@ $(function () {
         if (roundIndex === 3 && !gameIsRolling) {
             //reset game and clear UI
             resetGame();
+            updateScoreboardUI();
 
             //reset the button text
             $playButton.text("Play");
-
-
         }
-
 
         //If already rolling, disable play button
         if (gameIsRolling) {
