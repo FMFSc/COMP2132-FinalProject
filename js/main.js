@@ -46,8 +46,8 @@ $(function () {
     //Round index tracker
     let roundIndex = 0;
     //Player and Computer total score
-    let totalPlayerScore = 0,
-        totalComputerScore = 0;
+    let totalPlayerScore = 0;
+    let totalComputerScore = 0;
 
     const $diceDialog = $(".game-dialog-dice");
     const $diceDialogMessage = $("[data-dice-dialog-message]");
@@ -97,29 +97,35 @@ $(function () {
 
     // Updating UI with scores
     function updateScoreboardUI() {
-        if (playerScores[i]) {
-            for (let i = 0; i < 3; i++) {
-                [data - score = `player-game-${i+1}`];
+        for (let i = 0; i < 3; i++) {
+            const playerScore = playerScores[i];
+            const computerScore = computerScores[i];
+
+            if (playerScore !== null) {
+                $(`[data-score="player-game-${i+1}]`).text(playerScore);
             }
-        }
-        if (computerScores[i]) {
-            for (let i = 0; i < 3; i++) {
-                [data - score = `computer-game-${i+1}`];
+
+            if (computerScore !== null) {
+                $(`[data-score="computer-game-${i+1}]`).text(computerScore);
             }
         }
     }
 
     //game evaluation function to determine winner
     function gameWinner() {
-        for (let i = 0; i < 3; i++) {
-            totalPlayerScore = +playerScores[i];
-            totalComputerScore = +computerScores[i];
+        totalPlayerScore = 0;
+        totalComputerScore = 0;
+
+        for (let i = 0; i < playerScores.length; i++) {
+            totalPlayerScore += playerScores[i];
+            totalComputerScore += computerScores[i];
         }
-        return totalPlayerScore, totalComputerScore;
     }
 
     //display final dialog after game is complete
-    function showFinalWinnerDialog(totalPlayerScore, totalComputerScore) {
+    function showFinalWinnerDialog() {
+        gameWinner();
+
         if (totalPlayerScore > totalComputerScore) {
             $diceDialogMessage.text(`Player wins! Total: ${totalPlayerScore} vs ${totalComputerScore}`);
         } else if (totalPlayerScore < totalComputerScore) {
@@ -127,6 +133,20 @@ $(function () {
         } else {
             $diceDialogMessage.text(`This game was a draw! Total: ${totalPlayerScore} vs ${totalComputerScore}`);
         }
+
+        $diceDialog.removeAttr("hidden");
+    }
+
+    //Function to reset the game and allow player to play again
+    function resetGame() {
+        totalPlayerScore = 0;
+        totalComputerScore = 0;
+
+        roundIndex = 0;
+
+        diceFinalValues.length = 0;
+        playerScores.length = 0;
+        computerScores.length = 0;
     }
 
 
@@ -155,6 +175,11 @@ $(function () {
 
         if (roundIndex === 3) {
             showFinalWinnerDialog();
+            $playButton.prop("disabled", true);
+        } else {
+            gameIsRolling = false;
+            $playButton.prop("disabled", false);
+            $cancelButton.prop("disabled", true);
         }
     }
 
@@ -209,23 +234,20 @@ $(function () {
         }
 
         gameIsRolling = true;
-
-        //Start rolling animation  
-        startRollingAnimation();
         //Disable Play button, enable Cancel button
         $playButton.prop("disabled", true);
         $cancelButton.prop("disabled", false);
 
         //call function getFinalValues
         getFinalValues();
+        //Start rolling animation  
+        startRollingAnimation();
+
 
         rollingTimeout = setTimeout(function () {
             stopRollingAnimation();
             rollingTimeout = null;
         }, rollingAnimationDuration);
-
-
-
     });
 
 })
