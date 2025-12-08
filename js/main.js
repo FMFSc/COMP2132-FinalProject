@@ -124,12 +124,15 @@ $(function () {
         let playerRunningTotal = 0;
         let computerRunningTotal = 0;
 
-        for (let i = 0; i < 3; i++) {
-            playerRunningTotal += playerScores[i];
-            computerRunningTotal += computerScores[i];
+        for (let i = 0; i < playerScores.length; i++) {
+            playerRunningTotal += playerScores[i] || 0;
         }
-        $(`data-score = "player-running-total"`).text(playerRunningTotal);
-        $(`data-score = "computer-running-total"`).text(ComputerRunningTotal);
+
+        for (let i = 0; i < computerScores.length; i++) {
+            computerRunningTotal += computerScores[i] || 0;
+        }
+        $(`[data-score = "player-running-total"]`).text(playerRunningTotal);
+        $(`[data-score = "computer-running-total"]`).text(computerRunningTotal);
 
     }
 
@@ -221,6 +224,8 @@ $(function () {
         if (roundIndex === 3) {
             showFinalWinnerDialog();
             $playButton.prop("disabled", true);
+            gameIsRolling = false;
+
         } else {
             gameIsRolling = false;
             $playButton.prop("disabled", false);
